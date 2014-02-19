@@ -15,6 +15,7 @@
   <div>
     Genre:
     <select name="genre">  
+      <option value="">All</option>
       <?php foreach($genres as $genre) : ?>
       <option value="<?php echo $genre->id ?>">
         <?php echo $genre->genre_name ?>
@@ -26,6 +27,7 @@
   <div>
     Rating:
     <select name="rating">  
+      <option value="">All</option>
       <?php foreach($ratings as $rating) : ?>
       <option value="<?php echo $rating->id ?>">
         <?php echo $rating->rating_name ?>

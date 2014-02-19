@@ -15,8 +15,10 @@ class DVDController extends BaseController {
     $genre = Input::get('genre');
     $rating = Input::get('rating');
 
+    
     $dvds = DVD::search($title, $genre, $rating);
-
+   
+  
     return View::make('dvds/dvds-list', [
       'dvds' => $dvds
     ]);

@@ -11,7 +11,16 @@
 |
 */
 
-Route::get('/', function()
-{
-	return View::make('hello');
+
+
+Route::get('/dvds/search', 'DVDController@search');
+Route::get('/dvds', 'DVDController@listDVDs');
+
+Route::get('/dvds/search', function(){
+	$genres = Genre::queryAll();
+	$ratings = Rating::queryAll();
+	return View::make('dvds/search', [
+		'genres' => $genres,
+		'ratings' => $ratings
+		]);
 });

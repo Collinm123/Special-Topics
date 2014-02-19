@@ -50,7 +50,36 @@ $dvds = $statement->fetchAll(PDO::FETCH_OBJ);
 <?php else : ?>
 	<div class="noResults">Sorry, there are no results for that DVD Title.</div>
 
-<?php endif; ?>
+<?php endif; 
+
+
+if($session){
+	$response = new RedirectResponse('../dashboard.php');
+	return $response->send();
+}else{
+	$response = new RedirectResponse('../login.php');
+	return $response->send();
+}
+
+$session = new Session();
+$session->start(); // session_start()
+$session->get()
+$session->set('fullname', 'David Tang');
+$session->set('email', 'dtang@usc.edu');
+$session->set('loginTime', time());
+
+//$session->clear(); // session_destroy()
+
+//echo $session->get('fullname');
+//echo '<br />';
+//echo $session->get('loginTime');
+
+//$session->getFlashBag()->set('statusMessage', 'Thanks!');
+
+var_dump($session->getFlashBag()->get('statusMessage'));
+
+//$request->request->get('fullname'); // $_POST['fullname']
+?>
 
 
 

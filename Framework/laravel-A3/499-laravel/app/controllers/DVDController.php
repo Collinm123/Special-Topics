@@ -62,12 +62,11 @@ class DVDController extends BaseController {
           $dvd->save();
 
           return Redirect::to('/dvds/create')
-            ->with('success', 'DVD Added Successfully!');
+            ->with('messages', 'DVD Added Successfully!');
     }else{
           return Redirect::to('/dvds/create')
             ->withInput()
-            ->withErrors($validation);
-            //->with('errors', $validation->messages());
+            ->with('errors', $validation->messages());
     }
 
   }

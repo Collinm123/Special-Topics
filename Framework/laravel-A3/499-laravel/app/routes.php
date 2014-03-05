@@ -25,22 +25,38 @@ Route::get('/genre/{id}/dvds', function($id)
     ]);
 });
 
-Route::get('/itunes', function()
+
+
+Route::get('/', function()
 {
-	$itunes = new \custom\api\ItunesSearch();
-	$json = $itunes->getResults();
+	$data = array();
+    $name = Session::get('name');
+    $email = Session::get('email');
+    $photo = Session::get('photo');
+    $access_token = Session::get('access_token');
+    if ($access_token) {
+		return View::make('user', array(
+			'name' => $name,
+			'email' => $email,
+			'photo' => $photo,
+			'access_token' => $access_token,
 
-
-	//dd($json->results);
-
-	return View::make('/api/itunes', [
-		'songs' => $json->results
-		]);
-
+			));
+    }else{
+    	return View::make('user', array('data'=>$data));
+    }   
+    
 });
 
-
-
-
+Route::get('login/fb', 'FacebookController@login');
+Route::get('login/fb/callback', 'FacebookController@callback');
+Route::get('fb/search/friends', 'FacebookController@searchFriends');
+Route::get('fb/search/feed', 'FacebookController@searchFeed');
+Route::get('fb/search', 'FacebookController@makeSearch');
+Route::get('fb/search/query', 'FacebookController@search');
+Route::get('logout', function() {
+    Session::flush();
+    return Redirect::to('/');
+});
 
 

@@ -8,6 +8,7 @@ class DVD extends Eloquent {
     {
 
       $query = DVD::join('ratings', 'dvds.rating_id', '=', 'ratings.id')
+                      
                   ->join('genres', 'dvds.genre_id', '=', 'genres.id')
                   ->join('labels', 'dvds.label_id', '=', 'labels.id')
                   ->join('sounds', 'dvds.sound_id', '=', 'sounds.id')

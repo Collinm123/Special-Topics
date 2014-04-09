@@ -1,0 +1,203 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Google Maps API Example</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="lib/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="lib/css/main.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="../../assets/js/html5shiv.js"></script>
+      <script src="../../assets/js/respond.min.js"></script>
+    <![endif]-->
+	
+	  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+    <script type="text/javascript">
+  	  var geocoder;
+  		var map;
+  		var placesService;
+  		var infowindow;
+		
+      function codeAddress() {
+        // Get address value from the input field
+          var address = document.getElementById('address').value;
+
+        // Translate address to latlng using geocoder
+          geocoder.geocode({ 'address': address }, function(results, status) {
+            if(status == google.maps.GeocoderStatus.OK) {
+            // Reposition the map
+              map.setCenter(results[0].geometry.location);
+              map.setZoom(14); //0-20 allowed
+
+            // Search the area / location
+              doSearch(results[0].geometry.location);
+            } else {
+              alert("failed for the following reason" + status);
+            }
+
+          });
+
+
+      }
+
+		  function createMarker(place) {
+        // Initialize jQuery object to hold results
+          var $listOfPlaces = $("#places");
+
+        // Initialize variables
+          var name = " ";
+          var img = "<img class='media-object pull-left' src='http://placehold.it/150x150' />";
+          var address;
+
+          if (place.name != undefined) {
+            name = place.name;
+          }
+
+          if (place['photos'] != undefined) {
+            img = "<img class='media-object pull-left' src='" + place['photos'][0].getUrl({'maxWidth': 150, 'maxHeight': 150}) + "'/>";
+          }
+
+          if (place.vicinity != undefined) {
+            address = place.vicinity
+          }
+
+        // Append to results
+          $listOfPlaces.append("<li class='media'>" + img + name + "<br>" + address + "</li>");
+		
+        // Draw marker
+          var placeLoc = place.geometry.location;
+          var marker = new google.maps.Marker({
+            map: map,
+            position: place.geometry.location
+          });
+
+        // Make marker clickable
+          google.maps.event.addListener(marker, 'click', function() {
+            infowindow.setContent(place.name);
+            infowindow.open(map, this);
+          })
+		  }
+	  
+      function callback(results, status) {
+        // Check status
+        if(status == google.maps.places.PlacesServiceStatus.OK){
+
+          // Create Marker for each result
+          for(var i = 0; i<results.length; i++){
+            createMarker(results[i]);
+          }
+
+          // Display # of results
+          $("#results-count-bar").html("There are " + results.length + " results.");
+
+        }
+
+      }
+    
+      function doSearch(latlng) {
+        // Clear old results
+        $("#places").html("");
+
+        // Declare request var
+        var request = {
+          location: latlng,
+          radius: 1000,
+          types: ["restaurant"]
+        };
+
+        // call nearbySearch method
+        placesService.nearbySearch(request, callback);
+      }
+
+      function initialize() {
+          var latlng = new google.maps.LatLng(34.0522342, -118.2436849);
+
+          var mapOptions = {
+            zoom: 14,
+            center: latlng
+          }
+
+          map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+          infowindow = new google.maps.InfoWindow();
+
+        // Initialize Geocoder
+          geocoder = new google.maps.Geocoder();
+        
+        // Initialize Places Service
+          placesService = new google.maps.places.PlacesService(map);
+
+        // Search at latlng
+          doSearch(latlng);
+      }
+
+      google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>
+	
+  </head>
+
+  <body class="main-body">
+    <div class="main-container">
+            
+    <div class="left-col-qs fixed">
+      <form>
+        <h2>Enter location:</h2>
+        <div class="form-group">
+    		  <input id="address" class="form-control" placeholder="Enter Location" value="Los Angeles, CA">
+        </div>
+    		
+        <div class="form-group">
+          <input class="btn btn-default btn-block btn-warning btn-lg" type="button" value="Search" onclick="codeAddress()">	
+        </div>
+      </form>
+	  </div>
+
+    <div class="right-col-qs">
+
+      <div class="tabs-bar">
+        <div id="results-count-bar"></div>
+        <!-- Nav tabs -->
+        <ul class="nav" id="view_tabs">
+          <li class="active"><a href="#map" data-toggle="tab">Map</a></li>
+          <li><a href="#list" data-toggle="tab">List</a></li>
+        </ul>
+        <!-- END Nav tabs -->
+        <br clear="all"/>
+      </div> <!-- END tabs-bar -->
+
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div class="tab-pane active" id="map">
+          <div id="map-canvas"></div>
+        </div>
+        <div class="tab-pane" id="list">
+          <ul id="places" class="media-list">
+
+          </ul>
+        </div>
+      </div>
+      <!-- END Tab panes -->
+		  
+    </div>
+
+    </div><!-- /.main-container -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="lib/jquery/jquery.js"></script>
+    <script src="lib/js/bootstrap.js"></script>
+    </script>
+
+  </body>
+</html>

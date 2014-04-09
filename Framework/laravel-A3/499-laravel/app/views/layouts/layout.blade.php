@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Facebook integration for Laravel">
     
-    <title>FB+DVD API</title>
+    <title>Facebook API</title>
 
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-wip/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css">
@@ -37,7 +37,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="{{url('/')}}">FB + DVD API</a>
+          <a class="navbar-brand" href="{{url('/')}}">Facebook API</a>
         </div>
         <div class="navbar-collapse collapse">
           @if(Session::has('access_token'))

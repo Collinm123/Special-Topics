@@ -1,0 +1,16 @@
+<h1>Artists</h1>
+
+<p>
+	You searched for:
+	<span style="color:green;">
+		<%= searchTerm %>
+	</span>
+</p>
+
+<ul>
+	<% for (var i=0; i<artists.length; i++ ) { %>
+	<li> 
+		<%= artists[i].artist_name %> 
+	</li>
+	<% } %>
+</ul>

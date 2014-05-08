@@ -6,13 +6,16 @@ class Post extends Eloquent {
 
 	public static function validate($input)
     {
-          $validation = Validator::make($input, [
-            'body' => 'required',
+    	
+    	$validation = Validator::make($input, [
+           'body' => 'required',
 
 
           ]);
 
           return $validation;
+  
+
     }
 
 }

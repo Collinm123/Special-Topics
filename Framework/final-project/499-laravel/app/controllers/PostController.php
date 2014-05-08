@@ -32,7 +32,7 @@ class PostController extends BaseController{
 			return $this->updateFeed($post);
 
 		}else{
-			return Redirect::to('/post/create')
+			return Redirect::to('/posts/feed')
 			->withInput()
 			->with('errors', $validation->messages());
 		}

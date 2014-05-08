@@ -31,7 +31,7 @@ class TodoController extends BaseController{
 			return $this->updateFeed($todo);
 
 		}else{
-			return Redirect::to('/todo/create')
+			return Redirect::to('/todos/feed')
 			->withInput()
 			->with('errors', $validation->messages());
 		}

@@ -6,12 +6,13 @@ class Todo extends Eloquent {
 
 	public static function validate($input)
     {
-          $validation = Validator::make($input, [
+    	$validation = Validator::make($input, [
             'body' => 'required',
 
           ]);
 
           return $validation;
+
     }
 
 }
